@@ -1,7 +1,6 @@
 package glhrme.bvt.consulta_credito.utils.kafka;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import glhrme.bvt.consulta_credito.model.Credito;
+import glhrme.bvt.consulta_credito.model.Credit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -13,7 +12,7 @@ import java.util.*;
 @Service
 public class KafkaProducerService {
 
-    private final String TOPICO_CONSULTA_CREDITO = "consulta_credito";
+    private final String CREDIT_QUERY_TOPIC = "credit_query";
 
     @Autowired
     private final KafkaTemplate<String, KafkaMessage> kafkaTemplate;
@@ -22,26 +21,26 @@ public class KafkaProducerService {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void sendMessageConsultaNfse(String numeroNfse, List<Credito> creditos) {
-        if(!StringUtils.hasText(numeroNfse) && Objects.nonNull(creditos)) {
-            throw new IllegalArgumentException("O número da nota fiscal eletrônica consultada e a lista de créditos retornados devem ser informados para o envio da mensagem.");
+    public void sendMessageInvoiceNumberQuery(String invoiceNumber, List<Credit> credits) {
+        if(!StringUtils.hasText(invoiceNumber) && Objects.nonNull(credits)) {
+            throw new IllegalArgumentException("The queried invoice number and the query result must be provided to send the message.");
         }
 
-        Map<String, Object> payload = Map.of("numeroConsultado", numeroNfse, "retornoConsulta", creditos);
+        Map<String, Object> payload = Map.of("queriedNumber", invoiceNumber, "queryResult", credits);
 
-        kafkaTemplate.send(TOPICO_CONSULTA_CREDITO, new KafkaMessage(UUID.randomUUID().toString(), "obterPorNumeroNfse", ZonedDateTime.now().toString(), payload));
+        kafkaTemplate.send(CREDIT_QUERY_TOPIC, new KafkaMessage(UUID.randomUUID().toString(), "findByInvoiceNumber", ZonedDateTime.now().toString(), payload));
     }
 
-    public void sendMessageConsultaNuCredito(String numeroCredito, Credito credito) {
-        if(!StringUtils.hasText(numeroCredito)) {
-            throw new IllegalArgumentException("O número do crédito consultado deve ser informado para o envio da mensagem.");
+    public void sendMessageCreditNumberQuery(String creditNumber, Credit credit) {
+        if(!StringUtils.hasText(creditNumber)) {
+            throw new IllegalArgumentException("The queried credit number must be provided to send the message.");
         }
 
         Map<String, Object> payload = new HashMap<>();
-        payload.put("numeroConsultado", numeroCredito);
-        payload.put("retornoConsulta", credito);
+        payload.put("queriedNumber", creditNumber);
+        payload.put("queryResult", credit);
 
-        kafkaTemplate.send(TOPICO_CONSULTA_CREDITO, new KafkaMessage(UUID.randomUUID().toString(), "obterPorNumeroCredito", ZonedDateTime.now().toString(), payload));
+        kafkaTemplate.send(CREDIT_QUERY_TOPIC, new KafkaMessage(UUID.randomUUID().toString(), "findByCreditNumber", ZonedDateTime.now().toString(), payload));
     }
 
 }

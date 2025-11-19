@@ -15,7 +15,7 @@ public class SecurityConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedOrigins("*")
-                        .allowedMethods("GET", "POST", "DELETE")
+                        .allowedMethods("GET")
                         .allowedHeaders("*")
                         .maxAge(3600);
             }

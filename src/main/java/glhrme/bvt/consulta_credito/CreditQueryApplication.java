@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ConsultaCreditoApplication {
+public class CreditQueryApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ConsultaCreditoApplication.class, args);
+		SpringApplication.run(CreditQueryApplication.class, args);
 	}
 
 }

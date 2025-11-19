@@ -1,6 +1,6 @@
 # Consulta Crédito API
 
-Este projeto contém a API para o sistema de Consulta de Crédito, que depende de Kafka e PostgreSQL. A aplicação web que consome esta API está no repositório https://github.com/guilherme-boaventura/consulta-creditos-web, que deve ser clonado e buildado antes de executar o sistema completo.
+Este projeto contém a API para o sistema de Consulta de Crédito, que depende de Kafka e PostgreSQL. A aplicação web que consome esta API está no repositório https://github.com/guilherme-boaventura/consulta-credits-web, que deve ser clonado e buildado antes de executar o sistema completo.
 
 ## Pré-requisitos
 
@@ -8,23 +8,23 @@ Este projeto contém a API para o sistema de Consulta de Crédito, que depende d
 - Docker Compose
 - Git
 
-## Passo 1: Clonar e buildar a aplicação web (consulta-credito-web)
+## Passo 1: Clonar e buildar a aplicação web (consulta-credit-web)
 
 Antes de iniciar o backend, é necessário clonar o repositório da aplicação web e construir a imagem Docker.
 
 ```bash
-git clone https://github.com/guilherme-boaventura/consulta-creditos-web.git
-cd consulta-creditos-web
-docker build -t consulta-credito-web .
+git clone https://github.com/guilherme-boaventura/consulta-credits-web.git
+cd consulta-credits-web
+docker build -t consulta-credit-web .
 ```
 
-## Passo 2: Clonar e buildar a API (consulta-credito-api)
+## Passo 2: Clonar e buildar a API (consulta-credit-api)
 No repositório onde deseja alocar este projeto, execute:
 
 ```bash
-git clone https://github.com/guilherme-boaventura/consulta-creditos-api.git
-cd consulta-creditos-api
-docker build -t consulta-credito-api .
+git clone https://github.com/guilherme-boaventura/consulta-credits-api.git
+cd consulta-credits-api
+docker build -t consulta-credit-api .
 ```
 
 ## Passo 3: Subir os serviços com Docker Compose
