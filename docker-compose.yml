@@ -18,7 +18,7 @@ services:
     restart: unless-stopped
 
   kafka-init:
-    image: bitnami/kafka:3.7.0
+    image: apache/kafka:3.7.0
     depends_on:
       - kafka
     entrypoint: ["/bin/sh", "-c"]
@@ -26,7 +26,7 @@ services:
       "
       echo 'Aguardando Kafka subir...' &&
       sleep 10 &&
-      kafka-topics.sh --bootstrap-server kafka:29092 --create --if-not-exists --topic consulta_credito --partitions 1 --replication-factor 1 &&
+      /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:29092 --create --if-not-exists --topic consulta_credito --partitions 1 --replication-factor 1
       echo 'Tópico consulta_credito criado com sucesso!'
       "
     environment:

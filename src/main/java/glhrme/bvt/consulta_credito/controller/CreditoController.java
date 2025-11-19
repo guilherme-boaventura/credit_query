@@ -1,6 +1,5 @@
 package glhrme.bvt.consulta_credito.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import glhrme.bvt.consulta_credito.model.Credito;
 import glhrme.bvt.consulta_credito.service.CreditoService;
 import glhrme.bvt.consulta_credito.utils.kafka.KafkaProducerService;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/creditos")
@@ -24,18 +22,23 @@ public class CreditoController {
     private CreditoService creditoService;
 
     @GetMapping("/{numeroNfse}")
-    public List<Credito> obterPorNumeroNfse(@PathVariable("numeroNfse") String numeroNfse) throws JsonProcessingException {
+    public List<Credito> obterPorNumeroNfse(@PathVariable("numeroNfse") String numeroNfse) {
         List<Credito> creditos = creditoService.findByNumeroNfse(numeroNfse);
 
-        kafkaProducer.sendMessage("consulta_credito", "obterPorNumeroNfse", Map.of("numeroConsultado", numeroNfse, "retornoConsulta", creditos));
+        kafkaProducer.sendMessageConsultaNfse(numeroNfse, creditos);
         return creditos;
     }
 
     @GetMapping("/credito/{numeroCredito}")
-    public Credito obterPorNumeroCredito(@PathVariable("numeroCredito") String numeroCredito) throws JsonProcessingException {
-        Credito credito = creditoService.findByNumeroCredito(numeroCredito);
+    public Credito obterPorNumeroCredito(@PathVariable("numeroCredito") String numeroCredito) {
+        Credito credito = null;
 
-        kafkaProducer.sendMessage("consulta_credito", "obterPorNumeroCredito", Map.of("numeroConsultado", numeroCredito, "retornoConsulta", credito));
+        try {
+            credito = creditoService.findByNumeroCredito(numeroCredito);
+        } finally {
+            kafkaProducer.sendMessageConsultaNuCredito(numeroCredito, credito);
+        }
+
         return credito;
     }
 }
