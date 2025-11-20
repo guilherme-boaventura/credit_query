@@ -1,0 +1,56 @@
+<div class="p-4">
+  <div class="row g-2 mb-3">
+
+    <label class="col-auto mb-2">
+      <b>Consultar por:</b>
+    </label>
+
+    <div class="col-sm-auto col-12" *ngFor="let t of tiposConsulta">
+      <p-radiobutton name="tipoConsulta" [value]="t" [(ngModel)]="tipoConsultaSelecionado" />
+      <label class="ms-1" [for]="t">{{ t }}</label>
+    </div>
+  </div>
+
+  <div class="row g-2 align-items-center">
+    <div class="col-12 col-sm-auto">
+      <p-button label="Consultar" (click)="consultarCredito()" />
+    </div>
+    <div class="col-12 col-sm-auto">
+      <input pInputText [(ngModel)]="numeroConsultado" (keydown.enter)="consultarCredito()"/>
+    </div>
+    <p-toast/>
+  </div>
+
+  <p-table dataKey="id" [value]="creditos" [tableStyle]="{ 'min-width': '70vw' }" [scrollable]="true" scrollHeight="80vh" responsiveLayout="scroll">
+    <ng-template #header>
+      <tr>
+        <th>Id</th>
+        <th>Número</th>
+        <th>NFSE</th>
+        <th>Simples Nacional</th>
+        <th>Alíquota</th>
+        <th>Base de cálculo</th>
+        <th>Tipo</th>
+        <th>Dedução</th>
+        <th>Faturado</th>
+        <th>Issqn</th>
+        <th>Data de Constituição</th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-credito>
+      <tr>
+        <td>{{ credito.id }}</td>
+        <td>{{ credito.creditNumber }}</td>
+        <td>{{ credito.invoiceNumber }}</td>
+        <td>{{ credito.simpleNational? 'Sim' : 'Não' }}</td>
+        <td>{{ credito.taxRate }}</td>
+        <td>{{ credito.calculationBase }}</td>
+        <td>{{ credito.creditType }}</td>
+        <td>{{ credito.deductionAmount }}</td>
+        <td>{{ credito.billedAmount }}</td>
+        <td>{{ credito.issqnValue }}</td>
+        <td>{{ credito.establishmentDate | date:'dd/MM/yyyy' }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

@@ -1,7 +1,7 @@
 package glhrme.bvt.consulta_credito.service;
 
 import glhrme.bvt.consulta_credito.model.BaseModel;
-import org.springframework.dao.DataIntegrityViolationException;
+import glhrme.bvt.consulta_credito.utils.validators.Validator;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,27 +13,31 @@ public abstract class BaseService<T extends BaseModel, R extends JpaRepository<T
 
     protected R repo;
 
-    protected BaseService(R repo) {
+    private final List<Validator<T>> saveValidators;
+    private final List<Validator<T>> deletionValidators;
+
+    protected BaseService(R repo, List<Validator<T>> saveValidators, List<Validator<T>> deletionValidators) {
         this.repo = repo;
+        this.saveValidators = saveValidators;
+        this.deletionValidators = deletionValidators;
     }
 
     @Transactional(rollbackFor = Exception.class)
     public T save(T model) throws InvalidAttributesException {
-        validate(model);
-        validateUniqueness(model);
+        validateSaving(model);
         return repo.save(model);
     }
 
-    public void validate(T model) throws InvalidAttributesException {
-
+    private void validateSaving(T model) throws InvalidAttributesException {
+        for(Validator<T> validator : saveValidators) {
+            validator.validate(model);
+        }
     }
 
-    public void validateUniqueness(T model) throws DataIntegrityViolationException {
-
-    }
-
-    public void validateDeletion(T model) throws DataIntegrityViolationException {
-
+    public void validateDeletion(T model) throws InvalidAttributesException {
+        for(Validator<T> validator : deletionValidators) {
+            validator.validate(model);
+        }
     }
 
     public T findById(Long id, Class<T> modelClass) {
@@ -44,7 +48,7 @@ public abstract class BaseService<T extends BaseModel, R extends JpaRepository<T
         return repo.findAll();
     }
 
-    public void delete(T model) {
+    public void delete(T model) throws InvalidAttributesException {
         validateDeletion(model);
         repo.delete(model);
     }

@@ -90,11 +90,8 @@ services:
     environment:
       PGPASSWORD: postgres
 
-  consulta-credito-api:
+  credit-query-api:
     image: credit-query-api
-    container_name: credit-query-api
-    ports:
-      - "8080:8080"
     environment:
       KAFKA_BOOTSTRAP_SERVER: kafka:29092
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/credit_query
@@ -105,12 +102,29 @@ services:
       - kafka-init
       - postgres
     restart: unless-stopped
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
 
-  consulta-credito-web:
+  credit-query-web:
     image: credit-query-web
-    container_name: credit-query-web
-    ports:
-      - "4200:80"
     depends_on:
       - kafka
+    restart: unless-stopped
+    deploy:
+      replicas: 2
+
+  nginx-lb:
+    image: nginx:1.27.4-alpine
+    container_name: nginx-load-balancer
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - credit-query-api
+      - credit-query-web
     restart: unless-stopped
