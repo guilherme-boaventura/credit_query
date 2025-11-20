@@ -2,6 +2,8 @@
 
 This repository contains the API for the Credit Query system, which relies on Kafka and PostgreSQL. It also contains the web application that consumes the API.
 
+![](diagram/credit-query.drawio.png)
+
 ## Prerequisites
 
 - Docker
