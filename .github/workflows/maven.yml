@@ -5,8 +5,13 @@ on:
     branches: [ "**" ]
     
 jobs: 
-  compile:
+  package:
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: credit-query-api
+    
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK 21
@@ -16,4 +21,4 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Compile with Maven
-      run: mvn clean compile
+      run: mvn clean package
