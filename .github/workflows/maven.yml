@@ -5,7 +5,7 @@ on:
     branches: [ "**" ]
     
 jobs: 
-  package:
+  compile:
     runs-on: ubuntu-latest
 
     defaults:

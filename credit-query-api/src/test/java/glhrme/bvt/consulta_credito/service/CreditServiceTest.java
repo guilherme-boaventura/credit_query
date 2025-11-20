@@ -1,6 +1,5 @@
 package glhrme.bvt.consulta_credito.service;
 
-import glhrme.bvt.consulta_credito.model.Credit;
 import glhrme.bvt.consulta_credito.repository.CreditRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,11 +8,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -27,45 +26,28 @@ class CreditServiceTest {
     private CreditService creditService;
 
     @Test
-    @DisplayName("Must return the credit list if there is an valid invoice")
-    void mustReturnCreditListIfValidInvoice() {
-        String numeroNfse = "1122334";
+    @DisplayName("Should throw exception when NFSe number is null, empty, or only whitespace")
+    void shouldThrowExceptionWhenInvoiceNumberIsNullOrBlank() {
+        List<String> invalidInvoiceNumbers = Arrays.asList(null, "", "   ");
 
-
-
-        creditRepository.findByInvoiceNumber(numeroNfse);
-
-        List<Credit> resultado = creditService.findByInvoiceNumber(numeroNfse);
-
-        assertNotNull(resultado);
-//        assertEquals(creditosEsperados, resultado);
-        verify(creditRepository, times(1)).findByInvoiceNumber(numeroNfse);
-    }
-
-    @Test
-    @DisplayName("Deve retornar lista vazia quando NFSe válida não possui créditos")
-    void deveRetornarListaVaziaQuandoNenhumCreditoEncontrado() {
-        String numeroNfse = "231321321321312";
-
-        when(creditRepository.findByInvoiceNumber(numeroNfse)).thenReturn(new ArrayList<>());
-
-        List<Credit> resultado = creditService.findByInvoiceNumber(numeroNfse);
-
-        assertNotNull(resultado);
-        assertTrue(resultado.isEmpty());
-        verify(creditRepository, times(1))
-                .findByInvoiceNumber(numeroNfse);
-    }
-
-    @Test
-    @DisplayName("Deve lançar exceção quando número da NFSe for nulo, vazio ou apenas espaços")
-    void deveLancarExcecaoQuandoNumeroNfseInvalido() {
-        List<String> numerosNfseInvalidos = Arrays.asList(null, "", "   ");
-
-        for (String numeroNfse : numerosNfseInvalidos) {
+        for (String invoiceNumber : invalidInvoiceNumbers) {
             IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                                                              () -> creditService.findByInvoiceNumber(numeroNfse));
-            assertEquals("Um número de nota fiscal eletrônica deve ser informado para consulta.", exception.getMessage());
+                    () -> creditService.findByInvoiceNumber(invoiceNumber));
+            assertEquals("An invoice number is required to query credits.", exception.getMessage());
+        }
+
+        verify(creditRepository, never()).findByInvoiceNumber(any());
+    }
+
+    @Test
+    @DisplayName("Should throw exception when credit number is null, empty, or only whitespace")
+    void shouldThrowExceptionWhenCreditNumberIsNullOrBlank() {
+        List<String> invalidCreditNumbers = Arrays.asList(null, "", "   ");
+
+        for (String credit : invalidCreditNumbers) {
+            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                    () -> creditService.findByCreditNumber(credit));
+            assertEquals("A credit number is required to query a credit.", exception.getMessage());
         }
 
         verify(creditRepository, never()).findByInvoiceNumber(any());

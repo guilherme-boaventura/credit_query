@@ -1,62 +1,63 @@
-# Consulta Crédito API
+# Credit Query
 
-Este projeto contém a API para o sistema de Consulta de Crédito, que depende de Kafka e PostgreSQL. A aplicação web que consome esta API está no repositório https://github.com/guilherme-boaventura/consulta-credits-web, que deve ser clonado e buildado antes de executar o sistema completo.
+This repository contains the API for the Credit Query system, which relies on Kafka and PostgreSQL. It also contains the web application that consumes the API.
 
-## Pré-requisitos
+## Prerequisites
 
 - Docker
 - Docker Compose
 - Git
 
-## Passo 1: Clonar e buildar a aplicação web (consulta-credit-web)
+## Step 1: Clone and Build the Web Application
 
-Antes de iniciar o backend, é necessário clonar o repositório da aplicação web e construir a imagem Docker.
+First of all, starting from the root directory, it's necessary to build the Docker image of the web application with the followwing commands.
 
 ```bash
-git clone https://github.com/guilherme-boaventura/consulta-credits-web.git
-cd consulta-credits-web
-docker build -t consulta-credit-web .
+cd credit-query-web
+docker build -t credit-query-web .
 ```
 
 ## Passo 2: Clonar e buildar a API (consulta-credit-api)
-No repositório onde deseja alocar este projeto, execute:
+
+In order to build the API Docker image execute the following commands starting from the root directory.
 
 ```bash
-git clone https://github.com/guilherme-boaventura/consulta-credits-api.git
-cd consulta-credits-api
+cd credit-query-api
 docker build -t consulta-credit-api .
 ```
 
 ## Passo 3: Subir os serviços com Docker Compose
 
-No diretório raiz desse projeto, execute:
+On the root directory, execute:
 
 ```bash
 docker-compose up
 ```
 
-Isso irá subir os seguintes serviços:
+This will start the following services:
 
 Kafka (broker)
 
-Kafka Init (criação do tópico)
+Kafka Init (topic creation)
 
-Kafka UI (interface web para monitoramento do Kafka)
+Kafka UI (web interface for Kafka monitoring)
 
-PostgreSQL (banco de dados)
+PostgreSQL (database)
 
-DB Init (criação e população da tabela de crédito)
+DB Init (creation and population of the credit table)
 
-Consulta Crédito API (aplicação back-end)
+Credit Query API (back-end application)
 
-Consulta Crédito Web (aplicação front-end)
+Credit Query Web (front-end application)
+
+NGINX (load Balancer and reverse proxy)
 
 ## 🔗 Serviços Disponíveis
 
 | Serviço      | URL de Acesso                                     |
 |--------------|---------------------------------------------------|
-| Web          | http://localhost:4200                             | 
-| API          | http://localhost:8080                             |
+| Web          | http://localhost                             | 
+| API          | http://localhost/api                             |
 | Kafka UI     | http://localhost:8081                             |
 | PostgreSQL   | jdbc:postgresql://localhost:5432/consulta_credito |
 | Kafka Broker | localhost:9092 (externo) / kafka:29092 (interno)  |
@@ -68,38 +69,39 @@ Para parar e remover os containers:
 docker-compose down
 ```
 
-## 👀 Observações
+## 👀 Notes
 
-Este projeto configura um ambiente completo para desenvolvimento e testes da aplicação **Consulta Crédito**, incluindo:
+This project sets up a complete environment for developing and testing the **Credit Query** application, including:
 
-- **Apache Kafka** para mensageria.
-- **Kafka UI** para visualização e gerenciamento dos tópicos.
-- **PostgreSQL** como banco de dados.
-- **Aplicação Consulta Crédito** containerizada com Docker.
+- **Apache Kafka** for messaging.
 
-Certifique-se de que as portas 8080, 4200, 9092 e 8081 estejam livres em sua máquina.
+- **Kafka UI** for viewing and managing topics.
 
-A aplicação espera que o Kafka esteja acessível via `kafka:29092`, e esse é o endereço interno no `docker-compose`.
-O Kafka está configurado com dois listeners:
-  - `EXTERNAL` para acesso local (ex: `localhost:9092`)
-  - `INTERNAL` para comunicação entre containers (ex: `kafka:29092`)
+- **PostgreSQL** as the database.
 
-## ⚙️ Variáveis de Ambiente
+- **Credit Query** application containerized with Docker.
+
+- **NGINX** load balancer to manage traffic between instances.
+
+## ⚙️ Environment Variables
 
 ### Kafka
 
-- `KAFKA_BOOTSTRAP_SERVER=kafka:29092`  
-  Usado pela aplicação para se conectar ao broker Kafka.
+- `KAFKA_BOOTSTRAP_SERVER=kafka:29092`
 
-### Banco de Dados
+Used by the application to connect to the Kafka broker.
+
+### Database
 
 - `SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/consulta_credito`
+
 - `SPRING_DATASOURCE_USERNAME=postgres`
+
 - `SPRING_DATASOURCE_PASSWORD=postgres`
 
-## Executando testadores
+## Executing tests
 
-Com os serviços do docker-compose sendo executados, execute o seguinte comando para executar os testadores:
+With the docker-compose services running, execute the following command to run the testers:
 
 ```bash
 set KAFKA_BOOTSTRAP_SERVER=localhost:9092 && mvn test

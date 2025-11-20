@@ -34,7 +34,7 @@ public class CreditController {
         Credit credit = null;
 
         try {
-            credit = creditService.findByNumeroCredito(creditNumber);
+            credit = creditService.findByCreditNumber(creditNumber);
         } finally {
             kafkaProducer.sendMessageCreditNumberQuery(creditNumber, credit);
         }

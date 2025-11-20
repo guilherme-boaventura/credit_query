@@ -29,7 +29,7 @@ public class CreditService extends BaseService<Credit, CreditRepository> {
     }
 
     @Transactional(readOnly = true)
-    public Credit findByNumeroCredito(String creditNumber) {
+    public Credit findByCreditNumber(String creditNumber) {
 
         if(!StringUtils.hasText(creditNumber)) {
             throw new IllegalArgumentException("A credit number is required to query a credit.");
