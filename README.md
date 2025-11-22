@@ -69,7 +69,7 @@ NGINX (load Balancer and reverse proxy)
 | Kafka UI          | http://localhost:8081                              |
 | PostgreSQL        | jdbc:postgresql://localhost:5432/credit_query      |
 | Kafka Broker      | localhost:9092 (external) / kafka:29092 (internal) |
-| OpenAPI (Swagger) | localhost/swagger-ui.html                          |
+| OpenAPI (Swagger) | http://localhost/swagger-ui.html                   |
 
 ## 📝 Notes
 
