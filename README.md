@@ -71,7 +71,7 @@ NGINX (load Balancer and reverse proxy)
 | Kafka Broker      | localhost:9092 (external) / kafka:29092 (internal) |
 | OpenAPI (Swagger) | localhost/swagger-ui.html                          |
 
-## 👀 Notes
+## 📝 Notes
 
 This project sets up a complete environment for developing and testing the **Credit Query** application, including:
 
