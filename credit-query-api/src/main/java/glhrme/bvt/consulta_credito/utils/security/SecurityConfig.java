@@ -1,4 +1,4 @@
-package glhrme.bvt.consulta_credito.utils;
+package glhrme.bvt.consulta_credito.utils.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

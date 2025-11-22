@@ -2,7 +2,7 @@ package glhrme.bvt.consulta_credito.service;
 
 import glhrme.bvt.consulta_credito.model.Credit;
 import glhrme.bvt.consulta_credito.repository.CreditRepository;
-import glhrme.bvt.consulta_credito.utils.RecordNotFoundException;
+import glhrme.bvt.consulta_credito.utils.exception.RecordNotFoundException;
 import glhrme.bvt.consulta_credito.utils.validators.CreditBasicAttributesValidator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

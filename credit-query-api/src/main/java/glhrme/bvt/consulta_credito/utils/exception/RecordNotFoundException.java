@@ -1,4 +1,4 @@
-package glhrme.bvt.consulta_credito.utils;
+package glhrme.bvt.consulta_credito.utils.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

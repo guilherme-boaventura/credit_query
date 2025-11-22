@@ -10,7 +10,7 @@ This repository contains the API for the Credit Query system, which relies on Ka
 
 ![](documentation/credit-query.drawio.png)
 
-## Prerequisites
+## Requirements
 
 - Docker
 - Docker Compose
@@ -25,16 +25,16 @@ cd credit-query-web
 docker build -t credit-query-web .
 ```
 
-## Passo 2: Clonar e buildar a API (consulta-credit-api)
+## Step 2: Clone and Build the API
 
 In order to build the API Docker image execute the following commands starting from the root directory.
 
 ```bash
 cd credit-query-api
-docker build -t consulta-credit-api .
+docker build -t credit-query-api .
 ```
 
-## Passo 3: Subir os serviços com Docker Compose
+## Step 3: Run the services with Docker Compose
 
 On the root directory, execute:
 
@@ -60,22 +60,16 @@ Credit Query Web (front-end application)
 
 NGINX (load Balancer and reverse proxy)
 
-## 🔗 Serviços Disponíveis
+## 🔗 Services
 
-| Serviço      | URL de Acesso                                     |
-|--------------|---------------------------------------------------|
-| Web          | http://localhost                             | 
-| API          | http://localhost/api                             |
-| Kafka UI     | http://localhost:8081                             |
-| PostgreSQL   | jdbc:postgresql://localhost:5432/consulta_credito |
-| Kafka Broker | localhost:9092 (externo) / kafka:29092 (interno)  |
-
-## 🛑 Parar o sistema
-Para parar e remover os containers:
-
-```bash
-docker-compose down
-```
+| Service           | Access URL                                         |
+|-------------------|----------------------------------------------------|
+| Web               | http://localhost                                   | 
+| API               | http://localhost/api                               |
+| Kafka UI          | http://localhost:8081                              |
+| PostgreSQL        | jdbc:postgresql://localhost:5432/credit_query      |
+| Kafka Broker      | localhost:9092 (external) / kafka:29092 (internal) |
+| OpenAPI (Swagger) | localhost/swagger-ui.html                          |
 
 ## 👀 Notes
 
@@ -114,3 +108,10 @@ With the docker-compose services running, execute the following command to run t
 ```bash
 set KAFKA_BOOTSTRAP_SERVER=localhost:9092 && mvn test
 ```
+
+> **⚠️ Note:** The command syntax may vary depending on your environment:
+> - **Windows (CMD):** `set KAFKA_BOOTSTRAP_SERVER=localhost:9092 && mvn test`
+> - **Windows (PowerShell):** `$env:KAFKA_BOOTSTRAP_SERVER="localhost:9092"; mvn test`
+> - **Linux/Mac (Bash/Zsh):** `export KAFKA_BOOTSTRAP_SERVER=localhost:9092 && mvn test`
+>
+> Or run in a single line: `KAFKA_BOOTSTRAP_SERVER=localhost:9092 mvn test` (Linux/Mac only)
