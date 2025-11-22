@@ -1,8 +1,14 @@
 # Credit Query
 
-This repository contains the API for the Credit Query system, which relies on Kafka and PostgreSQL. It also contains the web application that consumes the API.
+This repository contains the API for the Credit Query system, which relies on Kafka and PostgreSQL and also the web application that consumes the API.
 
-![](diagram/credit-query.drawio.png)
+## User Stories
+
+![](documentation/user-stories.png)
+
+## Components
+
+![](documentation/credit-query.drawio.png)
 
 ## Prerequisites
 

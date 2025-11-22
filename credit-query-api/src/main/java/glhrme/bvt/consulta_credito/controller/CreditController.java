@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/credit")
+@RequestMapping("/api/creditos")
 public class CreditController {
 
     @Autowired
@@ -21,7 +21,7 @@ public class CreditController {
     @Autowired
     private CreditService creditService;
 
-    @GetMapping("/invoice/{invoiceNumber}")
+    @GetMapping("/{invoiceNumber}")
     public List<Credit> findByInvoiceNumber(@PathVariable("invoiceNumber") String invoiceNumber) {
         List<Credit> credits = creditService.findByInvoiceNumber(invoiceNumber);
 
@@ -29,7 +29,7 @@ public class CreditController {
         return credits;
     }
 
-    @GetMapping("/{creditNumber}")
+    @GetMapping("/credito/{creditNumber}")
     public Credit findByCreditNumber(@PathVariable("creditNumber") String creditNumber) {
         Credit credit = null;
 

@@ -7,15 +7,15 @@ import { Observable } from 'rxjs';
 })
 export class CreditoService {
 
-  private apiUrl = 'http://localhost/api/credit';
+  private apiUrl = 'http://localhost/api/creditos';
 
   constructor(private http: HttpClient) { }
 
   obterPorNumeroNfse(numeroNfse: string) : Observable<any> {
-    return this.http.get(`${this.apiUrl}/invoice/${numeroNfse}`);
+    return this.http.get(`${this.apiUrl}/${numeroNfse}`);
   }
 
   obterPorNumeroCredito(numeroCredito: string) : Observable<any> {
-    return this.http.get(`${this.apiUrl}/${numeroCredito}`);
+    return this.http.get(`${this.apiUrl}/credito/${numeroCredito}`);
   }
 }
